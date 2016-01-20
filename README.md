@@ -1,24 +1,29 @@
 # GNUPLOT
+chicken-schemeからgnuplotを使う。
+`use gnuplot`
 
-## start-gnuplot 
+### start-gnuplot 
 
-`(start-gnuplot)`でプロセスを開始する
+`(start-gnuplot)`でプロセスを開始する。
 
-## g-enter 
+### g-enter 
 `g-write`で書き込まれていたコマンドをgnuplotに送り、実行する。コマンドは消される。
 
-## g-write 
-`(g-write str)`で受けとった文字列を蓄える
+### g-write 
+`(g-write str)`で受けとった文字列を蓄える。
 
-## g-erase
+### g-erase
 `g-write`で書き込まれていたコマンドを消す。
 
-## g-quit 
-gnuplotプロセスを終了する
+### g-quit 
+gnuplotプロセスを終了する。
 
-## g-read
-gnuplotからの返事を読む
+### g-read
+gnuplotからの返事を読む。
 
-## g-command
-現在書き込まれているコマンドを返す
+### g-command
+現在書き込まれているコマンドを返す。
 
+## example
+
+`test/`以下を見てください。
