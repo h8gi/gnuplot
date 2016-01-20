@@ -1,0 +1,6 @@
+;;; gnuplot.meta
+((author "yagihiroki")
+ (synopsis "gnuplot")
+ (license "GPLv3")
+ (files "main.scm" "gnuplot.scm" "gnuplot.setup" "gnuplot.meta"))
+ 

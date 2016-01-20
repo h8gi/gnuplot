@@ -1,0 +1,11 @@
+;;; gnuplot.setup
+
+;;; コンパイル
+(compile -s -O3 -d1 "gnuplot.scm" -j gnuplot)
+(compile -s -O3 -d0 "gnuplot.import.scm")
+
+;;; インストール
+(install-extension
+ 'gnuplot
+ '("gnuplot.so" "gnuplot.import.so")
+ '((version 1.0)))
