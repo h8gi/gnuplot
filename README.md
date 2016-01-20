@@ -1,6 +1,6 @@
 # GNUPLOT
-chicken-schemeからgnuplotを使う。
-`use gnuplot`
+chicken-schemeからgnuplotを使う。  
+`(use gnuplot)`
 
 ### start-gnuplot 
 
