@@ -13,7 +13,7 @@
     (define (enter)
       (fprintf out command)
       (newline out)
-      (display command)
+      (display command) (newline)
       (set! command ""))
     (define (quit)
       (fprintf out "quit~%")
