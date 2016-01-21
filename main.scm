@@ -1,5 +1,6 @@
 (use posix)
 (define *gnu* #f)
+(define *tmpfile* (create-temporary-file))
 (define (start-gnuplot)
   (let-values ([(in out pid) (process "gnuplot 2>&1")]
                [(command) ""])
@@ -47,6 +48,31 @@
   (*gnu* 'erase))
 (define (g-quit)
   (if *gnu* (*gnu* 'quit)
-      (print "gnuplot process has already been killed")))
+      (print "gnuplot process has already been killed"))
+  (delete-file* *tmpfile*))
 (define (g-read)
   (*gnu* 'read))
+
+
+;;; plot utility
+(define (write-lsts-tmp tmpfile . lsts)
+  (with-output-to-file tmpfile
+    (lambda ()
+      (apply for-each (lambda line
+                        (for-each (lambda (x) (printf "~A " x)) line)
+                        (newline))
+             lsts))))
+
+(define (plot-list #!key (x #f) (y #f) (message #f))
+  (cond [(list? x) (cond [(and y (= (length x) (length y)))
+                          (write-lsts-tmp *tmpfile* x y)]
+                         [else (g-erase) (error "Malformal 'y' data" y)])]
+        
+        [(list? y) (write-lsts-tmp *tmpfile* (iota (length y)) y)]
+        
+        [else (error "Please use 'x:' and 'y:' keywords")])    
+  (g-write "plot" (sprintf "'~A'" *tmpfile*))
+  (when message
+    (g-write message))
+  (g-enter))
+

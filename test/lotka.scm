@@ -61,11 +61,6 @@
    "using 1:3 title 'P' with lines")
   (g-enter))
 
-(define (g-sin)
-  (g-write
-   "plot [-2*pi:2*pi] [-1:1] sin(x)"
-   "title 'sin'")
-  (g-enter))
 (start-gnuplot)
 (test)
-
+(g-quit)

@@ -24,6 +24,11 @@ gnuplotからの返事を読む。
 ### g-command
 現在書き込まれているコマンドを返す。
 
+### (plot-list #!key x y message)
+
+**y** は必須。**x**が無い場合勝手になんとかします。  
+**message**はplotに渡されるオプション文字列  
+
 ## example
 
 `test/`以下を見てください。
