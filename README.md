@@ -24,10 +24,11 @@ gnuplotからの返事を読む。
 ### g-command
 現在書き込まれているコマンドを返す。
 
-### (plot-list #!key x y message)
+### (plot-data data writer messages)
 
-**y** は必須。**x**が無い場合勝手になんとかします。  
-**message**はplotに渡されるオプション文字列  
+`(writer data)`が実行される。
+その後plotされて、文字列**messages**がgnuplotに送られる。
+
 
 ## example
 

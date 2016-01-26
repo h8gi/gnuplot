@@ -55,24 +55,14 @@
 
 
 ;;; plot utility
-(define (write-lsts-tmp tmpfile . lsts)
-  (with-output-to-file tmpfile
+;;; dataとwriteを受けとり、messagesに従いplotする?
+(define (plot-data data writer messages)
+  (with-output-to-file *tmpfile*
     (lambda ()
-      (apply for-each (lambda line
-                        (for-each (lambda (x) (printf "~A " x)) line)
-                        (newline))
-             lsts))))
-
-(define (plot-list #!key (x #f) (y #f) (message #f))
-  (cond [(list? x) (cond [(and y (= (length x) (length y)))
-                          (write-lsts-tmp *tmpfile* x y)]
-                         [else (g-erase) (error "Malformal 'y' data" y)])]
-        
-        [(list? y) (write-lsts-tmp *tmpfile* (iota (length y)) y)]
-        
-        [else (error "Please use 'x:' and 'y:' keywords")])    
+      (writer data)))
   (g-write "plot" (sprintf "'~A'" *tmpfile*))
-  (when message
-    (g-write message))
+  (when messages
+    (apply g-write messages))
   (g-enter))
+
 
