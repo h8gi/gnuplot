@@ -52,17 +52,3 @@
   (delete-file* *tmpfile*))
 (define (g-read)
   (*gnu* 'read))
-
-
-;;; plot utility
-;;; dataとwriteを受けとり、messagesに従いplotする?
-(define (plot-data data writer messages)
-  (with-output-to-file *tmpfile*
-    (lambda ()
-      (writer data)))
-  (g-write "plot" (sprintf "'~A'" *tmpfile*))
-  (when messages
-    (apply g-write messages))
-  (g-enter))
-
-
