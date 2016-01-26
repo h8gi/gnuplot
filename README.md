@@ -24,12 +24,6 @@ gnuplotからの返事を読む。
 ### g-command
 現在書き込まれているコマンドを返す。
 
-### (plot-data data writer messages)
-
-`(writer data)`が実行される。
-その後plotされて、文字列**messages**がgnuplotに送られる。
-
-
 ## example
 
 `test/`以下を見てください。
