@@ -2,28 +2,48 @@
 chicken-schemeからgnuplotを使う。  
 `(use gnuplot)`
 
-### start-gnuplot 
+### new-gp
 
-`(start-gnuplot)`でプロセスを開始する。
+`(new-gp) => #<gp>`
 
-### g-enter 
-`g-write`で書き込まれていたコマンドをgnuplotに送り、実行する。コマンドは消される。
+### gp-flush-command
+ `gp-store-command`によって書き込まれていたコマンドをgnuplotに送り実行する。コマンドは消される。
 
-### g-write 
-`(g-write str)`で受けとった文字列を蓄える。
+### gp-store-command
+`(gp-store-command gp . str)`で受けとった文字列を蓄える。
 
-### g-erase
+### gp-reset-command
 `g-write`で書き込まれていたコマンドを消す。
 
-### g-quit 
-gnuplotプロセスを終了する。
+### gp-send!
 
-### g-read
+コマンドを受けとって送信してメッセージを表示。
+
+~~~~~{.scheme}
+(define (gp-send! gp . strs)
+  (apply gp-store-command gp strs)
+  (gp-flush-command gp)
+  (thread-sleep! 0.01)                  ; wiat gnuplot's error message (horrible)
+  (display (gp-read-all gp)))
+~~~~~
+
+### gp-show-command
+書き込まれているコマンドを確認する。
+
+### gp-read-all
 gnuplotからの返事を読む。
 
-### g-command
-現在書き込まれているコマンドを返す。
+### gp-kill
+gnuplotプロセスを終了する。
 
 ## example
+
+~~~~~{.scheme}
+(use gp)
+(define gp (new-gp))
+(gp-send! gp "plot sin(x)")
+(gp-kill gp)
+~~~~~
+
 
 `test/`以下を見てください。

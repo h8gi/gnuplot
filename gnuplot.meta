@@ -2,5 +2,6 @@
 ((author "yagihiroki")
  (synopsis "gnuplot")
  (license "GPLv3")
+ (needs miscmacros)
  (files "main.scm" "gnuplot.scm" "gnuplot.setup" "gnuplot.meta"))
  

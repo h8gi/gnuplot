@@ -53,14 +53,14 @@
 ((model 'step) 1000)
 (with-output-to-file "test.csv" (lambda () (write-result (model 'get))))
 
-(define (test)
-  (g-write 
-   "plot 'test.csv'"
-   "using 1:2 title 'N' with lines,"
-   "'test.csv'"
-   "using 1:3 title 'P' with lines")
-  (g-enter))
 
-(start-gnuplot)
-(test)
-(g-quit)
+(define (test gp)
+  (gp-send! gp
+            "plot 'test.csv'"
+            "using 1:2 title 'N' with lines,"
+            "'test.csv'"
+            "using 1:3 title 'P' with lines"))
+
+(define gp (new-gp))
+(test gp)
+(gp-kill gp)
