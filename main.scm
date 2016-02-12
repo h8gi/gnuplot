@@ -53,7 +53,6 @@
   (char-ready? (gp-in gp)))
 
 (define (gp-kill gp)
-  (assert-live gp)
   (gp-store-command gp "quit")
   (gp-flush-command gp)
   (set! (gp-live? gp) #f)
