@@ -1,3 +1,4 @@
+(use srfi-18)
 (define gp)
 (define-record gp in out pid (setter cmd) (setter live?))
 (define-record-printer (gp x out)
