@@ -1,4 +1,4 @@
-(use gnuplot srfi-1)
+(use gnuplot srfi-1 srfi-13 posix)
 ;; Lotka-Volterraの捕食 被食モデル
 ;; 餌の密度: N
 ;; 捕食者の密度: P
