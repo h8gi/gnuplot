@@ -23,7 +23,7 @@ chicken-schemeからgnuplotを使う。
 (define (gp-send! gp . strs)
   (apply gp-store-command gp strs)
   (gp-flush-command gp)
-  (thread-sleep! 0.01)                  ; wiat gnuplot's error message (horrible)
+  (thread-sleep! 0.01)                  ; wait gnuplot's error message (horrible)
   (display (gp-read-all gp)))
 ~~~~~
 
