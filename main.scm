@@ -27,7 +27,7 @@
 (define (gp-flush-command gp)  
   (assert-live gp)
   (display (gp-cmd gp) (gp-out gp))
-  (when (gp-debug) (display (gp-cmd gp)))
+  (when (gp-debug) (gp-show-command gp))
   (newline (gp-out gp))
   (flush-output (gp-out gp))
   (gp-reset-command gp))
@@ -61,8 +61,8 @@
 
 (define (gp-plot gp x-lst y-lst #!key title (with "linespoints"))
   (gp-send-line gp (conc "plot '-' "
-                     (when title (conc "title \"" title "\""))
-                     (when with  (conc "with " with))))
+                         (if title (conc "title \"" title "\"") "")
+                         (if with  (conc "with " with) "")))
   (for-each (lambda (x y)
               (gp-send-line gp (conc x ", " y)))
             x-lst y-lst)
