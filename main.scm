@@ -22,7 +22,7 @@
 (define (gp-store-command gp . strs)
   (assert-live gp)
   (set! (gp-cmd gp)
-        (conc (gp-cmd gp) " " (string-join strs " "))))
+        (conc (gp-cmd gp) " " (string-join (map ->string strs) " "))))
 
 (define (gp-flush-command gp)  
   (assert-live gp)
@@ -82,3 +82,5 @@
                 (conc "using " (string-join (map ->string using) ":"))
                 (if title (conc "title '" title "'"))
                 (conc "with " with)))
+
+
