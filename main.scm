@@ -1,8 +1,7 @@
 (use srfi-18)
-(define gp)
 (define-record gp in out pid (setter cmd) (setter live?))
 (define-record-printer (gp x out)
-  (fprintf out "#<gp: ~S ~A>" (gp-cmd gp) (if (gp-live? gp) "live" "dead")))
+  (fprintf out "#<gp: ~S ~A>" (gp-cmd x) (if (gp-live? x) "live" "dead")))
 
 (define gp-debug (make-parameter #f))
 
@@ -45,8 +44,10 @@
 (define (gp-read-all gp)
   (with-output-to-string
       (lambda ()
-        (while (gp-char-ready? gp)
-          (display (read-char (gp-in gp)))))))
+        (let loop ()
+          (when (gp-char-ready? gp)
+            (display (read-char (gp-in gp)))
+            (loop))))))
 
 (define (gp-char-ready? gp)
   (assert-live gp)
