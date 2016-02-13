@@ -61,18 +61,6 @@
   (display (conc "gp(" (gp-pid gp) ") is dead.\n")))
 
 ;;; plot 
-
-(define (gp-plot-list gp x-lst y-lst
-                      #!key title (with "linespoints") (replot #f))
-  (gp-send-line gp
-                (conc (if replot "re" "") "plot '-' ")
-                (if title (conc "title '" title "'") "")
-                (conc "with " with))
-  (for-each (lambda (x y)
-              (gp-send-line gp (conc x ", " y)))
-            x-lst y-lst)
-  (gp-send-line gp "e"))
-
 (define (gp-plot-list gp x-lst y-lst
                       #!key title (with "linespoints") (replot #f))
   (let ([tmpfile (create-temporary-file)])
