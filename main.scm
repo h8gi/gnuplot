@@ -61,8 +61,8 @@
 
 ;;; plot 
 
-(define (gp-plot gp x-lst y-lst
-                 #!key title (with "linespoints") (replot #f))
+(define (gp-plot-list gp x-lst y-lst
+                      #!key title (with "linespoints") (replot #f))
   (gp-send-line gp
                 (conc (if replot "re" "") "plot '-' ")
                 (if title (conc "title \"" title "\"") "")
