@@ -27,7 +27,7 @@
 (define (gp-flush-command gp)  
   (assert-live gp)
   (display (gp-cmd gp) (gp-out gp))
-  (when (gp-debug) (gp-show-command gp))
+  (when (gp-debug) (display "gnuplot>") (gp-show-command gp))
   (newline (gp-out gp))
   (flush-output (gp-out gp))
   (gp-reset-command gp))
@@ -62,7 +62,8 @@
 
 ;;; plot 
 (define (gp-plot-list gp x-lst y-lst
-                      #!key title (with "linespoints") (replot #f))
+                      #!key title (with "linespoints") (replot #f)
+                      main xlabel ylabel)
   (let ([tmpfile (create-temporary-file)])
     (set! (gp-tmpfiles gp) (cons tmpfile (gp-tmpfiles gp)))
     (with-output-to-file tmpfile
@@ -70,17 +71,32 @@
         (for-each (lambda (x y)
                     (display (conc x ", " y "\n")))
                   x-lst y-lst)))
+    (when main
+      (gp-set gp "title" (conc "'" main "'")))
+    (when xlabel
+      (gp-set gp "xlabel" (conc "'" xlabel "'")))
+    (when ylabel
+      (gp-set gp "ylabel" (conc "'" ylabel "'")))
     (gp-send-line gp
                   (conc (if replot "re" "") "plot '" tmpfile "'")
                   (if title (conc "title '" title "'") "")
                   (conc "with " with))))
 
 (define (gp-plot-file gp datafile
-                      #!key (using '(1 2)) title (with "linespoints") (replot #f))
+                      #!key (using '(1 2)) title (with "linespoints") (replot #f)
+                      main xlabel ylabel)
+  (when main
+    (gp-set gp "title" (conc "'" main "'")))
+  (when xlabel
+    (gp-set gp "xlabel" (conc "'" xlabel "'")))
+  (when ylabel
+    (gp-set gp "ylabel" (conc "'" ylabel "'")))
   (gp-send-line gp
                 (conc (if replot "re" "") "plot '" datafile "'")
                 (conc "using " (string-join (map ->string using) ":"))
-                (if title (conc "title '" title "'"))
+                (if title (conc "title '" title "'") "")
                 (conc "with " with)))
 
+(define (gp-set gp key value)
+  (gp-send-line gp (conc "set " key " " value)))
 
