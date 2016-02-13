@@ -65,7 +65,7 @@
                       #!key title (with "linespoints") (replot #f))
   (gp-send-line gp
                 (conc (if replot "re" "") "plot '-' ")
-                (if title (conc "title \"" title "\"") "")
+                (if title (conc "title '" title "'") "")
                 (conc "with " with))
   (for-each (lambda (x y)
               (gp-send-line gp (conc x ", " y)))
@@ -79,3 +79,5 @@
                 (conc "using " (string-join (map ->string using) ":"))
                 (if title (conc "title '" title "'"))
                 (conc "with " with)))
+
+

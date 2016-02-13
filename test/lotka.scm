@@ -54,7 +54,6 @@
 (with-output-to-file "test.csv" (lambda () (write-result (model 'get))))
 
 
-
 (define gp (new-gp))
 (gp-plot-file gp "test.csv"
               #:using '(1 2)
