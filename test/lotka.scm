@@ -59,7 +59,7 @@
               #:using '(1 2)
               #:title "N"
               #:with "lines")
-(gp-plot-file gp "test.csv"
+(gp-plot-file gp "test2.csv"
               #:using '(1 3)
               #:title "P"
               #:with "lines"

@@ -72,6 +72,19 @@
             x-lst y-lst)
   (gp-send-line gp "e"))
 
+(define (gp-plot-list gp x-lst y-lst
+                      #!key title (with "linespoints") (replot #f))
+  (let ([tmpfile (create-temporary-file)])
+    (with-output-to-file tmpfile
+      (lambda ()
+        (for-each (lambda (x y)
+                    (display (conc x ", " y "\n")))
+                  x-lst y-lst)))
+    (gp-send-line gp
+                  (conc (if replot "re" "") "plot '" tmpfile "'")
+                  (if title (conc "title '" title "'") "")
+                  (conc "with " with))))
+
 (define (gp-plot-file gp datafile
                       #!key (using '(1 2)) title (with "linespoints") (replot #f))
   (gp-send-line gp
@@ -79,5 +92,3 @@
                 (conc "using " (string-join (map ->string using) ":"))
                 (if title (conc "title '" title "'"))
                 (conc "with " with)))
-
-
