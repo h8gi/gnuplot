@@ -2,6 +2,7 @@
 (module gnuplot
     (export gp-debug new-gp gp-send-line
             gp-store-command gp-flush-command gp-show-command gp-reset-command
-            gp-read-all gp-kill)
+            gp-read-all gp-kill
+            gp-plot)
   (import scheme chicken posix ports srfi-13 data-structures)
   (include "main.scm"))
