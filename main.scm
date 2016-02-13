@@ -1,8 +1,7 @@
 (use srfi-18)
-(define gp)
 (define-record gp in out pid (setter cmd) (setter live?))
 (define-record-printer (gp x out)
-  (fprintf out "#<gp: ~S ~A>" (gp-cmd gp) (if (gp-live? gp) "live" "dead")))
+  (fprintf out "#<gp: ~S ~A>" (gp-cmd x) (if (gp-live? x) "live" "dead")))
 
 (define gp-debug (make-parameter #f))
 
@@ -14,7 +13,7 @@
   (receive (in out pid) (process "gnuplot 2>&1")
     (make-gp in out pid "" #t)))
 
-(define (gp-send! gp . strs)
+(define (gp-send-line gp . strs)
   (apply gp-store-command gp strs)
   (gp-flush-command gp)
   (thread-sleep! 0.01)                  ; wait gnuplot's error message (horrible)
@@ -45,8 +44,10 @@
 (define (gp-read-all gp)
   (with-output-to-string
       (lambda ()
-        (while (gp-char-ready? gp)
-          (display (read-char (gp-in gp)))))))
+        (let loop ()
+          (when (gp-char-ready? gp)
+            (display (read-char (gp-in gp)))
+            (loop))))))
 
 (define (gp-char-ready? gp)
   (assert-live gp)
@@ -57,3 +58,12 @@
   (gp-flush-command gp)
   (set! (gp-live? gp) #f)
   (display (conc "gp(" (gp-pid gp) ") is dead.\n")))
+
+(define (gp-plot gp x-lst y-lst #!key title (with "linespoints"))
+  (gp-send-line gp (conc "plot '-' "
+                     (when title (conc "title \"" title "\""))
+                     (when with  (conc "with " with))))
+  (for-each (lambda (x y)
+              (gp-send-line gp (conc x ", " y)))
+            x-lst y-lst)
+  (gp-send-line gp "e"))
