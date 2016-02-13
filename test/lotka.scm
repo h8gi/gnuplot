@@ -54,13 +54,15 @@
 (with-output-to-file "test.csv" (lambda () (write-result (model 'get))))
 
 
-(define (test gp)
-  (gp-send-line gp
-                "plot 'test.csv'"
-                "using 1:2 title 'N' with lines,"
-                "'test.csv'"
-                "using 1:3 title 'P' with lines"))
 
 (define gp (new-gp))
-(test gp)
+(gp-plot-file gp "test.csv"
+              #:using '(1 2)
+              #:title "N"
+              #:with "lines")
+(gp-plot-file gp "test.csv"
+              #:using '(1 3)
+              #:title "P"
+              #:with "lines"
+              #:replot #t)
 (gp-kill gp)

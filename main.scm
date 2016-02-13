@@ -59,11 +59,23 @@
   (set! (gp-live? gp) #f)
   (display (conc "gp(" (gp-pid gp) ") is dead.\n")))
 
-(define (gp-plot gp x-lst y-lst #!key title (with "linespoints"))
-  (gp-send-line gp (conc "plot '-' "
-                         (if title (conc "title \"" title "\"") "")
-                         (if with  (conc "with " with) "")))
+;;; plot 
+
+(define (gp-plot gp x-lst y-lst
+                 #!key title (with "linespoints") (replot #f))
+  (gp-send-line gp
+                (conc (if replot "re" "") "plot '-' ")
+                (if title (conc "title \"" title "\"") "")
+                (conc "with " with))
   (for-each (lambda (x y)
               (gp-send-line gp (conc x ", " y)))
             x-lst y-lst)
   (gp-send-line gp "e"))
+
+(define (gp-plot-file gp datafile
+                      #!key (using '(1 2)) title (with "linespoints") (replot #f))
+  (gp-send-line gp
+                (conc (if replot "re" "") "plot '" datafile "'")
+                (conc "using " (string-join (map ->string using) ":"))
+                (if title (conc "title '" title "'"))
+                (conc "with " with)))

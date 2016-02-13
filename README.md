@@ -39,13 +39,22 @@ gnuplotプロセスを終了する。
 ### gp-plot
 `(gp-plot gp x-lst y-lst #!key title (with "linespoints"))`
 
+### gp-plot-file
+`(gp-plot-file gp datafile #!key (using (quote (1 2))) title (with "linespoints") (replot #f))`
 
 ## example
 
 ~~~~~{.scheme}
-(use gp)
 (define gp (new-gp))
-(gp-send-line gp "plot sin(x)")
+(gp-plot-file gp "test.csv"
+              #:using '(1 2)
+              #:title "N"
+              #:with "lines")
+(gp-plot-file gp "test.csv"
+              #:using '(1 3)
+              #:title "P"
+              #:with "lines"
+              #:replot #t)
 (gp-kill gp)
 ~~~~~
 
