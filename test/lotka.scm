@@ -55,11 +55,11 @@
 
 
 (define (test gp)
-  (gp-send! gp
-            "plot 'test.csv'"
-            "using 1:2 title 'N' with lines,"
-            "'test.csv'"
-            "using 1:3 title 'P' with lines"))
+  (gp-send-line gp
+                "plot 'test.csv'"
+                "using 1:2 title 'N' with lines,"
+                "'test.csv'"
+                "using 1:3 title 'P' with lines"))
 
 (define gp (new-gp))
 (test gp)

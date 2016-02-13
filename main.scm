@@ -13,7 +13,7 @@
   (receive (in out pid) (process "gnuplot 2>&1")
     (make-gp in out pid "" #t)))
 
-(define (gp-send! gp . strs)
+(define (gp-send-line gp . strs)
   (apply gp-store-command gp strs)
   (gp-flush-command gp)
   (thread-sleep! 0.01)                  ; wait gnuplot's error message (horrible)
@@ -58,3 +58,12 @@
   (gp-flush-command gp)
   (set! (gp-live? gp) #f)
   (display (conc "gp(" (gp-pid gp) ") is dead.\n")))
+
+(define (gp-plot gp x-lst y-lst #!key title (with "linespoints"))
+  (gp-send-line gp (conc "plot '-' "
+                     (when title (conc "title \"" title "\""))
+                     (when with  (conc "with " with))))
+  (for-each (lambda (x y)
+              (gp-send-line gp (conc x ", " y)))
+            x-lst y-lst)
+  (gp-send-line gp "e"))
