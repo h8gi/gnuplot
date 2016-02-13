@@ -37,7 +37,7 @@ gnuplotからの返事を読む。
 gnuplotプロセスを終了する。
 
 ### gp-plot-list
-`(gp-plot-list gp x-lst y-lst #!key title (with "linespoints"))`
+`(gp-plot-list gp x-lst y-lst #!key title (with "linespoints") (replot #f))`
 
 ### gp-plot-file
 `(gp-plot-file gp datafile #!key (using (quote (1 2))) title (with "linespoints") (replot #f))`

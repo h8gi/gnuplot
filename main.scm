@@ -1,5 +1,5 @@
 (use srfi-18)
-(define-record gp in out pid (setter cmd) (setter live?))
+(define-record gp in out pid (setter cmd) (setter live?) (setter tmpfiles))
 (define-record-printer (gp x out)
   (fprintf out "#<gp: ~S ~A>" (gp-cmd x) (if (gp-live? x) "live" "dead")))
 
@@ -11,7 +11,7 @@
 
 (define (new-gp)
   (receive (in out pid) (process "gnuplot 2>&1")
-    (make-gp in out pid "" #t)))
+    (make-gp in out pid "" #t '())))
 
 (define (gp-send-line gp . strs)
   (apply gp-store-command gp strs)
@@ -57,6 +57,7 @@
   (gp-store-command gp "quit")
   (gp-flush-command gp)
   (set! (gp-live? gp) #f)
+  (for-each delete-file* (gp-tmpfiles gp))
   (display (conc "gp(" (gp-pid gp) ") is dead.\n")))
 
 ;;; plot 
@@ -75,6 +76,7 @@
 (define (gp-plot-list gp x-lst y-lst
                       #!key title (with "linespoints") (replot #f))
   (let ([tmpfile (create-temporary-file)])
+    (set! (gp-tmpfiles gp) (cons tmpfile (gp-tmpfiles gp)))
     (with-output-to-file tmpfile
       (lambda ()
         (for-each (lambda (x y)
