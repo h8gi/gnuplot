@@ -59,9 +59,22 @@
               #:using '(1 2)
               #:title "N"
               #:with "lines")
-(gp-plot-file gp "test2.csv"
+(gp-plot-file gp "test.csv"
               #:using '(1 3)
               #:title "P"
               #:with "lines"
               #:replot #t)
-(gp-kill gp)
+
+(gp-plot-list gp
+              (map first (model 'get))
+              (map second (model 'get))
+              #:title "N"
+              #:with "lines")
+(gp-plot-list gp
+              (map first (model 'get))
+              (map third (model 'get))
+              #:title "P"
+              #:with "lines"
+              #:replot #t)
+
+; (gp-kill gp)

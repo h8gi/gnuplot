@@ -52,4 +52,4 @@
               #:using '(1 4) #:with "lines"
               #:replot #t
               #:title "L=2,M=1")
-
+(gp-kill gp)
