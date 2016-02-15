@@ -54,6 +54,7 @@
               #:title "L=2,M=1")
 
 (gp-save-plot gp "pade.png")
+
 (gp-kill gp)
 
 
