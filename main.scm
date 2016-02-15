@@ -100,3 +100,21 @@
 (define (gp-set gp key value)
   (gp-send-line gp (conc "set " key " " value)))
 
+(define term-alist
+  '(("png" . "png")
+    ("gif" . "gif")
+    ("jpg" . "jpeg")
+    ("jpeg" . "jpeg")
+    ("svg" . "svg")
+    ("eps" . "postscript eps enhanced color")))
+
+(define (gp-save-plot gp filename)
+  (cond [(assoc (last (string-split filename "."))
+                term-alist)
+         =>
+         (lambda (p)
+           (gp-send-line gp (conc "set terminal " (cdr p)))
+           (gp-send-line gp (conc "set output '" filename "'"))
+           (gp-send-line gp "replot")
+           (gp-send-line gp "set terminal pop")
+           (gp-send-line gp "set output"))]))

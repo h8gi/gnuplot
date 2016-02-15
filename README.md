@@ -42,6 +42,10 @@ gnuplotプロセスを終了する。
 ### gp-plot-file
 `(gp-plot-file gp datafile #!key (using (quote (1 2))) title (with "linespoints") (replot #f))`
 
+### gp-save-plot
+`(gp-save-plot gp filename)`  
+直前のplotを保存します。
+
 ## example
 
 ~~~~~{.scheme}
