@@ -53,8 +53,9 @@
               #:replot #t
               #:title "L=2,M=1")
 
-(gp-save-plot gp "pade.png")
+(gp-save-plot gp "pade.eps")
 
-(gp-kill gp)
+; (gp-kill gp)
+
 
 
