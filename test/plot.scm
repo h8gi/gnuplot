@@ -56,6 +56,3 @@
 (gp-save-plot gp "pade.eps")
 
 ; (gp-kill gp)
-
-
-

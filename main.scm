@@ -117,4 +117,5 @@
            (gp-send-line gp (conc "set output '" filename "'"))
            (gp-send-line gp "replot")
            (gp-send-line gp "set terminal pop")
-           (gp-send-line gp "set output"))]))
+           (gp-send-line gp "set output"))]
+        [else (error (conc "'" last "' is not supported"))]))
