@@ -1,18 +1,18 @@
 ;;; plot.scm
 (use gnuplot format)
 (gp-debug #t)
-(define gp (new-gp))
+(gp-start)
 (define x-lst (iota 100 0 0.1))
 (define y-lst (map sin x-lst))
 
-(gp-plot-list gp x-lst y-lst
+(gp-plot-list x-lst y-lst
               #:title "sin"
               #:with "lines")
 
-(gp-plot-list gp x-lst (reverse y-lst)
+(gp-plot-list x-lst (reverse y-lst)
               #:replot #t)
 
-(gp-plot-list gp x-lst (map (lambda (x) (* x x)) y-lst)
+(gp-plot-list x-lst (map (lambda (x) (* x x)) y-lst)
               #:replot #t
               #:with "lines")
 
@@ -36,23 +36,23 @@
   (lambda ()
     (pade 50)))
 
-(gp-plot-file gp "pade.dat"
+(gp-plot-file "pade.dat"
               #:using '(1 2) #:with "lines"
               #:title "Analytical"
               #:main "Pade approximatioin"
               #:xlabel "x"
               #:ylabel "y=exp(-x)")
 
-(gp-plot-file gp "pade.dat"
+(gp-plot-file "pade.dat"
               #:using '(1 3) #:with "lines"
               #:replot #t
               #:title "L=1,M=2")
 
-(gp-plot-file gp "pade.dat"
+(gp-plot-file "pade.dat"
               #:using '(1 4) #:with "lines"
               #:replot #t
               #:title "L=2,M=1")
 
-(gp-save-plot gp "pade.eps")
+(gp-save-plot "pade.eps")
 
-; (gp-kill gp)
+(gp-kill)
